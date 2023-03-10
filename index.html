@@ -28,8 +28,6 @@
       </form>
 
       <ul id="users"></ul>
-
-    
     </section>
     
 
@@ -38,10 +36,59 @@
         event.preventDefault();
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
-        localStorage.setItem('name', name);
-        localStorage.setItem('email', email);
-        document.getElementById("userForm").reset(); 
+
+        
+        let userData = localStorage.getItem("users");
+
+        
+        if (!userData) {
+          userData = [];
+        } else {
+          
+          userData = JSON.parse(userData);
+        }
+
+      
+        userData.push({ name, email });
+
+        
+        localStorage.setItem("users", JSON.stringify(userData));
+
+        
+        document.getElementById("userForm").reset();
+        
+        
+        showUserList();
       }
+
+      function showUserList() {
+       
+        let userData = localStorage.getItem("users");
+
+        
+        if (!userData) {
+          userData = [];
+        } else {
+        
+          userData = JSON.parse(userData);
+        }
+
+        
+        const userList = document.getElementById("users");
+
+       
+        userList.innerHTML = "";
+
+
+        for (let i = 0; i < userData.length; i++) {
+          const user = userData[i];
+          const listItem = document.createElement("li");
+          listItem.innerText = `Name: ${user.name}, Email: ${user.email}`;
+          userList.appendChild(listItem);
+        }
+      }
+
+      showUserList();
 
       document.getElementById("userForm").addEventListener("submit", saveToLocalStorage);
     </script>
