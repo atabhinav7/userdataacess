@@ -14,6 +14,7 @@
 
     <section class="container">
       <form id="userForm">
+        
         <h1>Add User</h1>
         <div class="msg"></div>
         <div>
@@ -28,15 +29,22 @@
       </form>
 
       <ul id="users"></ul>
+    
     </section>
     
 
     <script>
+      let users = [];
+
       function saveToLocalStorage(event){
         event.preventDefault();
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
 
+        if(name === '' || email === '') {
+          alert("Please enter both name and email");
+          return;
+        }
         
         let userData = localStorage.getItem("users");
 
@@ -58,6 +66,23 @@
         document.getElementById("userForm").reset();
         
         
+        showUserList();
+      }
+
+      function deleteUser(index) {
+        let userData = JSON.parse(localStorage.getItem('users'));
+        userData.splice(index, 1);
+        localStorage.setItem('users', JSON.stringify(userData));
+        showUserList();
+      }
+
+      function editUser(index) {
+        let userData = JSON.parse(localStorage.getItem('users'));
+        const user = userData[index];
+        document.getElementById("name").value = user.name;
+        document.getElementById("email").value = user.email;
+        userData.splice(index, 1);
+        localStorage.setItem('users', JSON.stringify(userData));
         showUserList();
       }
 
@@ -83,7 +108,15 @@
         for (let i = 0; i < userData.length; i++) {
           const user = userData[i];
           const listItem = document.createElement("li");
+          const deleteButton = document.createElement("button");
+          deleteButton.innerText = "Delete";
+          deleteButton.addEventListener("click", function() { deleteUser(i); });
+          const editButton = document.createElement("button");
+          editButton.innerText = "Edit";
+          editButton.addEventListener("click", function() { editUser(i); });
           listItem.innerText = `Name: ${user.name}, Email: ${user.email}`;
+          listItem.appendChild(deleteButton);
+          listItem.appendChild(editButton);
           userList.appendChild(listItem);
         }
       }

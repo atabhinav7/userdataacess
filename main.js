@@ -37,12 +37,12 @@
 
  //myForm.addEventListener('submit', onSubmit);
 
-function onSubmit(event){
-    event.preventDefault();
-    const name = event.target.name.value;
-  const email = event.target.email.value;
-  localStorage.setItem('name', name);
-  localStorage.setItem('email', email);
+// function onSubmit(event){
+//     event.preventDefault();
+//     const name = event.target.name.value;
+//   const email = event.target.email.value;
+//   localStorage.setItem('name', name);
+//   localStorage.setItem('email', email);
   
    
       //  const li = document.createElement('li');
@@ -53,4 +53,4 @@ function onSubmit(event){
 
       // nameInput.value = '';
       // emailInput.value = '';
-    }
+    // }
